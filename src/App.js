@@ -6,13 +6,35 @@ import MailchimpSubscribe from 'react-mailchimp-subscribe';
 
 import SignUpForm from './SignUpForm';
 
-// https://samertarcha.us14.list-manage.com/subscribe/post?u=9b1adbdfd32abe1510db35b2c&amp;id=a19b490581'
+// "https://samertarcha.us10.list-manage.com/subscribe/post?u=465b8dfeb145e3b4a176fb459&amp;id=123fb13184"
 
 const App = () => {
 	return (
 		<Fragment>
-			<SignUpForm />
-			{/* <MailchimpSubscribe url='https://samertarcha.us14.list-manage.com/subscribe/post?u=9b1adbdfd32abe1510db35b2c&amp;id=a19b490581' /> */}
+			<MailchimpSubscribe
+				url='https://samertarcha.us10.list-manage.com/subscribe/post?u=465b8dfeb145e3b4a176fb459&amp;id=123fb13184'
+				render={({ subscribe, status, message }) => (
+					<>
+						<SignUpForm
+							status={status}
+							message={message}
+							onValidated={formData => subscribe(formData)}
+						/>
+						{status === 'sending' && (
+							<div style={{ color: 'blue' }}>sending...</div>
+						)}
+						{status === 'error' && (
+							<div
+								style={{ color: 'red' }}
+								dangerouslySetInnerHTML={{ __html: message }}
+							/>
+						)}
+						{status === 'success' && (
+							<div style={{ color: 'green' }}>Subscribed !</div>
+						)}
+					</>
+				)}
+			/>
 		</Fragment>
 	);
 };
